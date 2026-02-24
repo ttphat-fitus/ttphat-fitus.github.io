@@ -5,14 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>FirstBlog | My Blog</title>
-<meta name="keywords" content="">
-<meta name="description" content="Lorem Ipsum Dolor Sit Amet
-Đây là đoạn mở đầu của bài viết blog. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Các định dạng văn bản cơ bản (Typography)
-
-Trong phần này, chúng ta sẽ kiểm tra cách hiển thị của các kiểu chữ:">
+<title>ssmal Writeup | My Blog</title>
+<meta name="keywords" content="CTF, RSA, Cryptography">
+<meta name="description" content="When they leak the high bits of p&#43;q, the rest is just a distributed search — rent the cloud and flex.">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/posts/firstblog/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.da3211e5ef867bf2b75fd5a6515cfed7195c011e8ab735694e203810a827097b.css" integrity="sha256-2jIR5e&#43;Ge/K3X9WmUVz&#43;1xlcAR6KtzVpTiA4EKgnCXs=" rel="preload stylesheet" as="style">
@@ -118,96 +113,173 @@ Trong phần này, chúng ta sẽ kiểm tra cách hiển thị của các kiể
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      FirstBlog
+      ssmal Writeup
     </h1>
-    <div class="post-meta"><span title='2026-02-24 15:57:04 +0700 +07'>February 24, 2026</span>
+    <div class="post-meta"><span title='2026-02-24 00:00:00 +0000 UTC'>February 24, 2026</span>
 
 </div>
-  </header> 
-  <div class="post-content"><p>Lorem Ipsum Dolor Sit Amet</p>
-<p>Đây là đoạn mở đầu của bài viết blog. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#ssmal" aria-label="ssmal">ssmal</a><ul>
+                        
+                <li>
+                    <a href="#challenge-description" aria-label="Challenge Description">Challenge Description</a></li>
+                <li>
+                    <a href="#code-review" aria-label="Code Review">Code Review</a></li>
+                <li>
+                    <a href="#solution" aria-label="Solution">Solution</a></li>
+                <li>
+                    <a href="#ssmal-slayer" aria-label="ssmal Slayer">ssmal Slayer</a></li>
+                <li>
+                    <a href="#now-its-time-for-money-to-talk" aria-label="Now it&rsquo;s time for money to talk🐧">Now it&rsquo;s time for money to talk🐧</a></li>
+                <li>
+                    <a href="#flag" aria-label="FLAG">FLAG</a></li>
+                <li>
+                    <a href="#takeaway" aria-label="Takeaway">Takeaway</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="ssmal">ssmal<a hidden class="anchor" aria-hidden="true" href="#ssmal">#</a></h1>
+<blockquote>
+<p>When they leak the high bits of p+q, the rest is just a distributed search — rent the cloud and flex.</p>
+</blockquote>
+<hr>
+<h2 id="challenge-description">Challenge Description<a hidden class="anchor" aria-hidden="true" href="#challenge-description">#</a></h2>
+<p><code>chall.py</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> Crypto.Util.number <span style="color:#f92672">import</span> getPrime, isPrime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> getPrime(<span style="color:#ae81ff">256</span>)
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> getPrime(<span style="color:#ae81ff">256</span>) 
+</span></span><span style="display:flex;"><span>N <span style="color:#f92672">=</span> p<span style="color:#f92672">*</span>q
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>flag <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;BPCTF</span><span style="color:#e6db74">{redact}</span><span style="color:#e6db74">&#39;</span> 
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> pow(int<span style="color:#f92672">.</span>from_bytes(flag, <span style="color:#e6db74">&#39;big&#39;</span>), e, N)
+</span></span><span style="display:flex;"><span>gift <span style="color:#f92672">=</span> (p<span style="color:#f92672">+</span>q)<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;N = </span><span style="color:#e6db74">{</span>N<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">c = </span><span style="color:#e6db74">{</span>c<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">gift = </span><span style="color:#e6db74">{</span>gift<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">N = 5758124415184468271370250630048687746812715972269092676700260830924771547226161680827118153372606993872590019171624226415454063566537634596851695999313069
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">c = 4258014490469377191207443169980969026536758269486705363402307773455639773007422079769567310663689852817179059312032143236005345809847891632360620594960862
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">gift = 139200565274113272217771369795858181556454302427519574149545982701
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>The program leaks <code>N = p*q</code>, the ciphertext <code>c</code>, and <code>gift = (p+q) &gt;&gt; 40</code> — an approximation of <code>s = p+q</code> with the lower 40 bits removed. Recovering <code>p</code> and <code>q</code> (and thus <code>d</code>) reduces to finding the unknown 40 lower bits of <code>s</code>. Once <code>p,q</code> are recovered, decrypt <code>c</code> to obtain the flag.</p>
+<hr>
+<h2 id="code-review">Code Review<a hidden class="anchor" aria-hidden="true" href="#code-review">#</a></h2>
+<p>This is a classic <strong>partial-sum leak</strong> RSA problem:</p>
+<ul>
+<li>If <code>s = p + q</code> were known exactly, <code>p</code> and <code>q</code> are roots of <code>x^2 - s x + N = 0</code>.</li>
+<li>With <code>gift = s &gt;&gt; 40</code>, we have <code>s = (gift &lt;&lt; 40) + k</code> for unknown <code>k</code> in <code>[0, 2^40)</code>.</li>
+<li>For each candidate <code>k</code> compute <code>D = s^2 - 4N</code>. If <code>D</code> is a perfect square then <code>p = (s + sqrt(D)) // 2</code> and <code>q = (s - sqrt(D)) // 2</code>. Verify <code>p*q == N</code>.</li>
+<li>So the problem is an <strong>exhaustive search over 2^40 candidates</strong>, with plenty of ways to prune and parallelize.</li>
+</ul>
+<p>This leakage is fatal but straightforward: leaking the high bits of <code>p+q</code> turns factorization into a bounded brute-force search rather than requiring subexponential factoring.</p>
+<hr>
+<h2 id="solution">Solution<a hidden class="anchor" aria-hidden="true" href="#solution">#</a></h2>
 <ol>
-<li>Các định dạng văn bản cơ bản (Typography)</li>
+<li>
+<p>Compute <code>s0 = gift &lt;&lt; 40</code>.</p>
+</li>
+<li>
+<p>For <code>k</code> in <code>0 .. 2^40 - 1</code> (parallelize!):</p>
+<ul>
+<li><code>s = s0 + k</code></li>
+<li><code>D = s*s - 4*N</code></li>
+<li>If <code>D &lt; 0</code> continue. Let <code>r = isqrt(D)</code>. If <code>r*r == D</code> then candidate found.</li>
+<li>Compute <code>p = (s + r) // 2</code>, <code>q = (s - r) // 2</code>. Verify <code>p*q == N</code>.</li>
+</ul>
+</li>
+<li>
+<p>Compute <code>d = inverse(e, (p-1)*(q-1))</code> and <code>m = pow(c, d, N)</code>; convert <code>m</code> to bytes to get the flag.</p>
+</li>
 </ol>
-<p>Trong phần này, chúng ta sẽ kiểm tra cách hiển thị của các kiểu chữ:</p>
-<p>Chữ đậm (Bold): Duis aute irure dolor in reprehenderit.</p>
-<p>Chữ nghiêng (Italic): Velit esse cillum dolore eu fugiat nulla pariatur.</p>
-<p><del>Chữ gạch ngang (Strikethrough)</del>: <del>Excepteur sint occaecat</del> cupidatat non proident.</p>
-<p>Kết hợp cả hai: Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Tiểu mục cấp 3 (H3)</p>
-<p>Quisque velit nisi, pretium ut lacinia in, elementum id enim. Pellentesque in ipsum id orci porta dapibus.</p>
-<p>Tiểu mục cấp 4 (H4)</p>
-<p>Donec rutrum congue leo eget malesuada. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.</p>
-<ol start="2">
-<li>Danh sách (Lists)</li>
-</ol>
-<p>Danh sách không thứ tự (Unordered List)</p>
-<p>Danh mục thứ nhất</p>
-<p>Danh mục thứ hai</p>
-<p>Danh mục con A</p>
-<p>Danh mục con B</p>
-<p>Danh mục thứ ba</p>
-<p>Danh sách có thứ tự (Ordered List)</p>
-<p>Bước chuẩn bị</p>
-<p>Bước thực hiện</p>
-<p>Bước hoàn thiện</p>
-<p>Danh sách công việc (Task List)</p>
-<p>[x] Đã hoàn thành tác vụ đầu tiên</p>
-<p>[ ] Đang chờ xử lý tác vụ thứ hai</p>
-<p>[ ] Kế hoạch cho tác vụ thứ ba</p>
-<ol start="3">
-<li>Trích dẫn và Code (Quotes &amp; Code)</li>
-</ol>
-<p>&ldquo;Đây là một đoạn trích dẫn (Blockquote). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&rdquo;
-— Tác giả ẩn danh</p>
-<p>Sử dụng inline code để đánh dấu các biến hoặc lệnh ngắn trong dòng.</p>
-<p>Dưới đây là một khối mã giả (Code Block) với ngôn ngữ JavaScript:</p>
-<p>function greet(name) {
-console.log(&ldquo;Hello, &quot; + name + &ldquo;!&rdquo;);
-return &ldquo;Lorem ipsum success&rdquo;;
-}</p>
-<p>const message = greet(&ldquo;Blogger&rdquo;);
-console.log(message);</p>
-<ol start="4">
-<li>Bảng dữ liệu (Tables)</li>
-</ol>
-<p>STT</p>
-<p>Thành phần</p>
-<p>Trạng thái</p>
-<p>Ghi chú</p>
-<p>01</p>
-<p>Header</p>
-<p>Hoàn thành</p>
-<p>Hiển thị tốt</p>
-<p>02</p>
-<p>Sidebar</p>
-<p>Đang xử lý</p>
-<p>Cần chỉnh CSS</p>
-<p>03</p>
-<p>Footer</p>
-<p>Chờ duyệt</p>
-<p>Chưa có nội dung</p>
-<ol start="5">
-<li>Hình ảnh và Liên kết (Media &amp; Links)</li>
-</ol>
-<p>Đây là một Liên kết đến Google để kiểm tra màu sắc của link.</p>
-<p>Dưới đây là hình ảnh minh họa (Placeholder):</p>
-<p>Chú thích: Hình ảnh minh họa cho bài viết sử dụng dịch vụ placeholder.</p>
-<ol start="6">
-<li>Công thức toán học (LaTeX)</li>
-</ol>
-<p>Nếu blog của bạn hỗ trợ MathJax hoặc KaTeX:</p>
-<p>Công thức trong dòng: $E = mc^2$</p>
-<p>Công thức khối:</p>
-<p>$$\int_{a}^{b} f(x) ,dx$$</p>
-<p>Kết thúc bài viết.
-Cảm ơn bạn đã theo dõi bài viết kiểm tra này!</p>
+<hr>
+<h2 id="ssmal-slayer">ssmal Slayer<a hidden class="anchor" aria-hidden="true" href="#ssmal-slayer">#</a></h2>
+<p><code>solve.sage</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> Crypto.Util.number <span style="color:#f92672">import</span> long_to_bytes
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sage.all <span style="color:#f92672">import</span> Integer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> len(sys<span style="color:#f92672">.</span>argv) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">3</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Usage: sage solve.sage &lt;start_k&gt; &lt;end_k&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>exit(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>start_k <span style="color:#f92672">=</span> Integer(sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>end_k <span style="color:#f92672">=</span> Integer(sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">2</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>N <span style="color:#f92672">=</span> Integer(<span style="color:#e6db74">&#34;5758124415184468271370250630048687746812715972269092676700260830924771547226161680827118153372606993872590019171624226415454063566537634596851695999313069&#34;</span>)
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> Integer(<span style="color:#e6db74">&#34;4258014415184468271370250630048687746812715972269092676700260830924771547226161680827118153372606993872590019171624226415454063566537634596851695999313069&#34;</span>)
+</span></span><span style="display:flex;"><span>gift <span style="color:#f92672">=</span> Integer(<span style="color:#e6db74">&#34;139200565274113272217771369795858181556454302427519574149545982701&#34;</span>)
+</span></span><span style="display:flex;"><span>e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Finding k from </span><span style="color:#e6db74">{</span>start_k<span style="color:#e6db74">}</span><span style="color:#e6db74"> to </span><span style="color:#e6db74">{</span>end_k<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">...&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s_approx <span style="color:#f92672">=</span> gift <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>Dk <span style="color:#f92672">=</span> (s_approx <span style="color:#f92672">+</span> start_k)<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>N
+</span></span><span style="display:flex;"><span>add_term <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>(s_approx <span style="color:#f92672">+</span> start_k) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(start_k, end_k):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> Dk<span style="color:#f92672">.</span>is_square():
+</span></span><span style="display:flex;"><span>        p_minus_q <span style="color:#f92672">=</span> Dk<span style="color:#f92672">.</span>isqrt()
+</span></span><span style="display:flex;"><span>        s <span style="color:#f92672">=</span> s_approx <span style="color:#f92672">+</span> k
+</span></span><span style="display:flex;"><span>        p <span style="color:#f92672">=</span> (s <span style="color:#f92672">-</span> p_minus_q) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        q <span style="color:#f92672">=</span> (s <span style="color:#f92672">+</span> p_minus_q) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> p <span style="color:#f92672">*</span> q <span style="color:#f92672">==</span> N:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Found solution at k = </span><span style="color:#e6db74">{</span>k<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            phi <span style="color:#f92672">=</span> (p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            d <span style="color:#f92672">=</span> pow(e, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, phi)
+</span></span><span style="display:flex;"><span>            m <span style="color:#f92672">=</span> pow(c, d, N)
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            m_int <span style="color:#f92672">=</span> int(m)
+</span></span><span style="display:flex;"><span>            flag_bytes <span style="color:#f92672">=</span> long_to_bytes(m_int)
+</span></span><span style="display:flex;"><span>            flag_string <span style="color:#f92672">=</span> flag_bytes<span style="color:#f92672">.</span>decode()
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34; </span><span style="color:#e6db74">{</span>flag_string<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    Dk <span style="color:#f92672">+=</span> add_term
+</span></span><span style="display:flex;"><span>    add_term <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><hr>
+<h2 id="now-its-time-for-money-to-talk">Now it&rsquo;s time for money to talk🐧<a hidden class="anchor" aria-hidden="true" href="#now-its-time-for-money-to-talk">#</a></h2>
+<p>When the math is done, the last stage is pure engineering muscle — buying compute time and showing off your hardware.</p>
+<p>So the simple job is to go to Google Cloud Platform (GCP) and rent the most powerful and expensive compute instances they have.
+Hmm, the C4 chip series with 288 vCPUs, 144 cores, and 576 GB of memory seems good. Besides, to drain my money, I’ll add some NVIDIA H100 80GB GPUs to my instance to test something funny later 🐧.</p>
+<p>With those electricity-grid destroyers, my goal is to run many parallel workers, each searching a small shard of the <code>2^40</code> space. Each worker runs the optimized code above (with small-prime prefilters and gmpy2/C for speed) and returns immediately when it finds the correct <code>k</code>.
+<img alt="htop" loading="lazy" src="/images/htop.png"></p>
+<p>So now watch the CPUs burn through cycles to brute-force <code>2^40</code> values.</p>
+<p>After just over 2 hours, the master node printed:
+<img alt="found" loading="lazy" src="/images/found.png">
+The flag was harvested. Sometimes, throwing money at math really <em>does</em> work.</p>
+<p>Then decode the found value to get the flag.</p>
+<hr>
+<h2 id="flag">FLAG<a hidden class="anchor" aria-hidden="true" href="#flag">#</a></h2>
+<pre tabindex="0"><code>BPCTF{l4w_priv4ate_key_attack_easy_right?}
+</code></pre><hr>
+<h2 id="takeaway">Takeaway<a hidden class="anchor" aria-hidden="true" href="#takeaway">#</a></h2>
+<ul>
+<li>Leaking high bits of <code>p+q</code> reduces factorization to a bounded brute-force problem.</li>
+<li>Engineering and parallelism win: small-prime prefilters + GMP + massive parallelism make 2^40 feasible.</li>
+</ul>
 
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/ctf/">CTF</a></li>
+      <li><a href="http://localhost:1313/tags/rsa/">RSA</a></li>
+      <li><a href="http://localhost:1313/tags/cryptography/">Cryptography</a></li>
     </ul>
   </footer>
 </article>
