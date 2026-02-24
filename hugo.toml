@@ -1,5 +1,6 @@
 baseURL = 'https://ttphat-fitus.github.io/'
 languageCode = 'en-us'
 title = 'My Blog'
-theme='ananke'
-
+theme='PaperMod'
+[params]
+	math=true

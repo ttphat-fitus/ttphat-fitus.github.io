@@ -2,6 +2,7 @@
 date = '2026-02-24T15:57:04+07:00'
 draft = false
 title = 'FirstBlog'
+math = true
 +++
 
 Lorem Ipsum Dolor Sit Amet
