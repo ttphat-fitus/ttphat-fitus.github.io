@@ -1,0 +1,5 @@
+baseURL = 'https://Blog.github.io.git/'
+languageCode = 'en-us'
+title = 'My Blog'
+theme='ananke'
+
