@@ -3,4 +3,4 @@ languageCode = 'en-us'
 title = 'My Blog'
 theme='PaperMod'
 [params]
-	math=true
+math=true
