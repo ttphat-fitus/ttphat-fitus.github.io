@@ -1,4 +1,4 @@
-baseURL = 'https://Blog.github.io.git/'
+baseURL = 'https://ttphat-fitus.github.io/'
 languageCode = 'en-us'
 title = 'My Blog'
 theme='ananke'
